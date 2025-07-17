@@ -1,0 +1,47 @@
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backend (Spring Boot)
+likelion_backend/target/
+likelion_backend/build/
+likelion_backend/.gradle/
+likelion_backend/out/
+likelion_backend/*.log
+likelion_backend/application-local.properties
+
+# Frontend (Flutter)
+likelion_front/.dart_tool/
+likelion_front/.flutter-plugins
+likelion_front/.flutter-plugins-dependencies
+likelion_front/.packages
+likelion_front/.pub-cache/
+likelion_front/.pub/
+likelion_front/build/
+likelion_front/flutter_*.png
+likelion_front/flutter_*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Environment files
+.env
+.env.local
+.env.production 

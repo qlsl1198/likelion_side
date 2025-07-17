@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Study Partner - 함께 공부하는 파트너를 찾아보세요">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Apple PWA -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Study Partner">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  
+  <!-- Title -->
+  <title>Study Partner</title>
+  
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- 포인터 이벤트 안정성 개선 -->
+  <style>
+    /* 포인터 이벤트 최적화 */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    /* 입력 요소는 선택 가능하게 */
+    input, textarea, select, button {
+      -webkit-user-select: auto;
+      -khtml-user-select: auto;
+      -moz-user-select: auto;
+      -ms-user-select: auto;
+      user-select: auto;
+    }
+    
+    /* 포인터 이벤트 안정성 */
+    body {
+      touch-action: manipulation;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Flutter 웹 최적화 */
+    flt-glass-pane {
+      pointer-events: auto !important;
+    }
+    
+    /* 스크롤 최적화 */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    
+    /* 로딩 화면 */
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div class="spinner"></div>
+  </div>
+  
+  <script>
+    // 포인터 이벤트 에러 억제
+    window.addEventListener('error', function(e) {
+      if (e.message && e.message.includes('pointer') || 
+          e.message && e.message.includes('targetElement')) {
+        console.warn('포인터 이벤트 에러 억제:', e.message);
+        e.preventDefault();
+        return false;
+      }
+    });
+    
+    // registerExtension 경고 억제
+    window.addEventListener('unhandledrejection', function(e) {
+      if (e.reason && e.reason.toString().includes('registerExtension')) {
+        console.warn('registerExtension 경고 억제:', e.reason);
+        e.preventDefault();
+        return false;
+      }
+    });
+    
+    // 개발자 도구 확장 에러 억제
+    const originalConsoleError = console.error;
+    console.error = function(...args) {
+      const message = args.join(' ');
+      if (message.includes('registerExtension') || 
+          message.includes('developer event method hooks') ||
+          message.includes('dwds')) {
+        return; // 억제
+      }
+      originalConsoleError.apply(console, args);
+    };
+    
+    // Flutter 로딩 완료 시 로딩 화면 제거
+    window.addEventListener('flutter-first-frame', function() {
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.style.display = 'none';
+      }
+    });
+    
+    // 페이지 로드 후 일정 시간 후 로딩 화면 제거 (fallback)
+    setTimeout(function() {
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.style.display = 'none';
+      }
+    }, 5000);
+  </script>
+
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
